@@ -58,20 +58,19 @@ export const OceanWaveCursor: React.FC = () => {
     const spawnWashPuff = (x: number, y: number, dx: number, dy: number) => {
       const color = smokeColors[Math.floor(Math.random() * smokeColors.length)];
 
-      // 1. Broad outer wash puff (loang to, mềm mại, lan tỏa ra xung quanh)
+      // 1. Broad outer wash puff (loang to, mờ mịn, lan tỏa nhẹ nhàng)
       puffs.push({
         x: x + (Math.random() - 0.5) * 14,
         y: y + (Math.random() - 0.5) * 14,
-        vx: (Math.random() - 0.5) * 0.5 + dx * 0.03,
+        vx: (Math.random() - 0.5) * 0.4 + dx * 0.025,
         // Smoke gently rises upward as it blooms
-        vy: -0.32 - Math.random() * 0.28 + dy * 0.03,
-        // Clearly larger initial radius as requested ("to xíu")
-        radius: 42 + Math.random() * 24,
-        // Expands generously outward as it bleeds ("vệt loang")
-        growth: 1.1 + Math.random() * 0.6,
-        alpha: 0.52 + Math.random() * 0.14,
-        // Graceful dissipation (~1.5s - 1.8s)
-        decay: 0.01 + Math.random() * 0.004,
+        vy: -0.3 - Math.random() * 0.25 + dy * 0.025,
+        radius: 40 + Math.random() * 22,
+        // Soft expansive wash bloom
+        growth: 1.0 + Math.random() * 0.5,
+        // Softer, misty alpha as requested ("khói mờ lại xíu")
+        alpha: 0.28 + Math.random() * 0.08,
+        decay: 0.011 + Math.random() * 0.003,
         r: color.r,
         g: color.g,
         b: color.b,
@@ -81,14 +80,14 @@ export const OceanWaveCursor: React.FC = () => {
 
       // 2. Focused silky core along the stroke for fluid continuity
       puffs.push({
-        x: x + (Math.random() - 0.5) * 6,
-        y: y + (Math.random() - 0.5) * 6,
-        vx: dx * 0.04,
-        vy: -0.22 + dy * 0.04,
-        radius: 22 + Math.random() * 12,
-        growth: 0.6 + Math.random() * 0.3,
-        alpha: 0.62 + Math.random() * 0.15,
-        decay: 0.012 + Math.random() * 0.004,
+        x: x + (Math.random() - 0.5) * 5,
+        y: y + (Math.random() - 0.5) * 5,
+        vx: dx * 0.03,
+        vy: -0.2 + dy * 0.03,
+        radius: 20 + Math.random() * 10,
+        growth: 0.55 + Math.random() * 0.25,
+        alpha: 0.32 + Math.random() * 0.08,
+        decay: 0.012 + Math.random() * 0.003,
         r: color.r,
         g: color.g,
         b: color.b,
@@ -150,12 +149,12 @@ export const OceanWaveCursor: React.FC = () => {
       const isDark = document.documentElement.classList.contains('dark');
       ctx.globalCompositeOperation = isDark ? 'screen' : 'source-over';
 
-      // 1. Draw broad, feather-soft wash puffs ("vệt loang")
+      // 1. Draw broad, feather-soft wash puffs ("vệt loang khói mờ ảo")
       for (let i = puffs.length - 1; i >= 0; i--) {
         const p = puffs[i];
 
         // Soft, organic swirling waft
-        p.x += p.vx + Math.sin(time * 2.0 + p.phase) * 0.28;
+        p.x += p.vx + Math.sin(time * 2.0 + p.phase) * 0.25;
         p.y += p.vy;
         p.radius += p.growth * (dt * 60);
         p.alpha -= p.decay * (dt * 60);
@@ -169,17 +168,17 @@ export const OceanWaveCursor: React.FC = () => {
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
 
         if (p.isCore) {
-          // Luminous core gradient
-          grad.addColorStop(0, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.85})`);
-          grad.addColorStop(0.35, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.55})`);
-          grad.addColorStop(0.7, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.18})`);
+          // Soft luminous core gradient
+          grad.addColorStop(0, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.45})`);
+          grad.addColorStop(0.35, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.25})`);
+          grad.addColorStop(0.7, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.08})`);
           grad.addColorStop(1, `rgba(${p.r}, ${p.g}, ${p.b}, 0)`);
         } else {
-          // Broad diffused loang bleed gradient
-          grad.addColorStop(0, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.55})`);
-          grad.addColorStop(0.25, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.38})`);
-          grad.addColorStop(0.55, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.18})`);
-          grad.addColorStop(0.8, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.05})`);
+          // Broad diffused loang bleed gradient (mờ mịn, thanh thoát)
+          grad.addColorStop(0, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.28})`);
+          grad.addColorStop(0.3, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.16})`);
+          grad.addColorStop(0.6, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.06})`);
+          grad.addColorStop(0.85, `rgba(${p.r}, ${p.g}, ${p.b}, ${currentAlpha * 0.02})`);
           grad.addColorStop(1, `rgba(${p.r}, ${p.g}, ${p.b}, 0)`);
         }
 
@@ -191,14 +190,14 @@ export const OceanWaveCursor: React.FC = () => {
 
       // 2. Soft ambient aura directly beneath cursor
       if (hasMoved) {
-        const cursorGlow = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 95);
-        cursorGlow.addColorStop(0, isDark ? 'rgba(56, 189, 248, 0.22)' : 'rgba(14, 165, 233, 0.15)');
-        cursorGlow.addColorStop(0.5, isDark ? 'rgba(6, 182, 212, 0.08)' : 'rgba(6, 182, 212, 0.05)');
+        const cursorGlow = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 90);
+        cursorGlow.addColorStop(0, isDark ? 'rgba(56, 189, 248, 0.10)' : 'rgba(14, 165, 233, 0.08)');
+        cursorGlow.addColorStop(0.5, isDark ? 'rgba(6, 182, 212, 0.04)' : 'rgba(6, 182, 212, 0.03)');
         cursorGlow.addColorStop(1, 'rgba(6, 182, 212, 0)');
 
         ctx.fillStyle = cursorGlow;
         ctx.beginPath();
-        ctx.arc(mouseX, mouseY, 95, 0, Math.PI * 2);
+        ctx.arc(mouseX, mouseY, 90, 0, Math.PI * 2);
         ctx.fill();
       }
 

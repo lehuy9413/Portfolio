@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { PERSONAL_INFO } from '@/data/portfolioData';
 import { useLanguage } from '@/hooks/useLanguage';
 

@@ -114,9 +114,9 @@ export const FEATURED_PROJECTS: readonly Project[] = [
       vi: 'Nền tảng ứng cứu khẩn cấp tích hợp mô hình thị giác AI (Qwen2.5-VL), bản đồ số Mapbox và kết nối WebSocket thời gian thực hỗ trợ điều phối viên và nhân sự hiện trường.',
       en: 'A mission-critical incident dispatch system integrating Qwen2.5-VL vision-language model, Mapbox routing, and real-time WebSockets for field teams and dispatchers.',
     },
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://res.cloudinary.com/dbtjki0vq/image/upload/v1793107544/Screenshot_2026-10-27_202141_kq99ap.png',
     demoUrl: 'https://github.com/lehuy9413',
-    githubUrl: 'https://github.com/lehuy9413',
+    githubUrl: 'https://github.com/emergency-dispatch',
     tags: ['ReactJS', 'React Native', 'Express', 'PostgreSQL', 'WebSocket', 'Mapbox', 'AI Pipeline'],
     highlights: [
       {
@@ -162,9 +162,9 @@ export const FEATURED_PROJECTS: readonly Project[] = [
       vi: 'Giải pháp quản lý bãi đỗ xe thông minh gồm mobile app cho tài xế và dashboard ReactJS giám sát trạng thái chỗ trống qua WebSocket cùng tính toán phí đỗ xe tự động.',
       en: 'A comprehensive parking solution with driver mobile app for automated QR check-in, parking slot reservations, and a real-time ReactJS monitoring dashboard.',
     },
-    image: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=1200&q=80',
-    demoUrl: 'https://github.com/lehuy9413',
-    githubUrl: 'https://github.com/lehuy9413',
+    image: 'https://res.cloudinary.com/dbtjki0vq/image/upload/v1793107544/Screenshot_2026-10-27_201949_hcvzdx.png',
+    demoUrl: 'https://parking-building-management-system-two.vercel.app/',
+    githubUrl: 'https://github.com/breadbosua/Parking-Building-Management-System-WDP301',
     tags: ['ReactJS', 'React Native', 'NodeJS', 'Express', 'MongoDB', 'Socket.io'],
     highlights: [
       {
@@ -210,9 +210,9 @@ export const FEATURED_PROJECTS: readonly Project[] = [
       vi: 'Sàn thương mại điện tử nông sản trực tuyến với bộ lọc sản phẩm mượt mà, quy trình giỏ hàng/thanh toán tối ưu và xác thực bảo mật Google OAuth 2.0 / JWT.',
       en: 'An online agricultural produce marketplace featuring instant product filtering, shopping cart workflows, and secure Google OAuth 2.0 / JWT authentication.',
     },
-    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80',
-    demoUrl: 'https://github.com/lehuy9413',
-    githubUrl: 'https://github.com/lehuy9413',
+    image: 'https://res.cloudinary.com/dbtjki0vq/image/upload/v1793107544/Screenshot_2026-10-27_202048_bmfoqs.png',
+    demoUrl: 'https://organic-produce-distribution.vercel.app/',
+    githubUrl: 'https://github.com/KY7SIEUCANG/ORGANIC-PRODUCE-DISTRIBUTION',
     tags: ['ReactJS', 'NodeJS', 'Express', 'MongoDB', 'Cloudinary', 'JWT'],
     highlights: [
       {
@@ -495,80 +495,38 @@ export const EXPERIENCES: readonly Experience[] = [
 export const CONTACT_STRINGS = {
   heading: {
     vi: 'Liên hệ với tôi',
-    en: "Let's work together",
+    en: "Let's connect",
   },
   subheading: {
-    vi: 'Tôi luôn sẵn sàng trao đổi về các dự án mới, cơ hội hợp tác hoặc trao đổi chuyên môn.',
-    en: 'Feel free to reach out if you have an open role, a project inquiry, or simply want to connect.',
+    vi: 'Tôi luôn sẵn sàng trao đổi về các cơ hội nghề nghiệp, dự án mới hoặc kết nối chuyên môn.',
+    en: 'Feel free to reach out for career opportunities, new projects, or to connect.',
   },
   emailLabel: {
     vi: 'Email cá nhân',
     en: 'Personal Email',
   },
+  phoneLabel: {
+    vi: 'Số điện thoại',
+    en: 'Phone Number',
+  },
   locationLabel: {
     vi: 'Địa điểm làm việc',
     en: 'Location',
   },
-  nameLabel: {
-    vi: 'Họ và tên',
-    en: 'Your Name',
+  statusLabel: {
+    vi: 'Trạng thái hiện tại',
+    en: 'Current Status',
   },
-  emailInputLabel: {
-    vi: 'Địa chỉ Email',
-    en: 'Email Address',
-  },
-  subjectLabel: {
-    vi: 'Tiêu đề',
-    en: 'Subject',
-  },
-  messageLabel: {
-    vi: 'Nội dung tin nhắn',
-    en: 'Message',
-  },
-  sendButton: {
-    vi: 'Gửi tin nhắn',
-    en: 'Send Message',
-  },
-  sendingButton: {
-    vi: 'Đang gửi...',
-    en: 'Sending...',
-  },
-  successMessage: {
-    vi: 'Cảm ơn bạn! Tin nhắn đã được gửi thành công. Tôi sẽ phản hồi sớm nhất.',
-    en: 'Thank you! Your message has been received. I will reply soon.',
+  statusValue: {
+    vi: 'Sẵn sàng nhận việc (Open to work)',
+    en: 'Open to Work & Collaborations',
   },
   copySuccess: {
     vi: 'Đã sao chép email!',
     en: 'Copied email to clipboard!',
   },
-  errors: {
-    nameRequired: {
-      vi: 'Vui lòng nhập họ và tên.',
-      en: 'Please enter your name.',
-    },
-    nameShort: {
-      vi: 'Họ tên cần có ít nhất 2 ký tự.',
-      en: 'Name must be at least 2 characters.',
-    },
-    emailRequired: {
-      vi: 'Vui lòng nhập địa chỉ email.',
-      en: 'Please enter your email.',
-    },
-    emailInvalid: {
-      vi: 'Địa chỉ email không hợp lệ.',
-      en: 'Please enter a valid email address.',
-    },
-    subjectRequired: {
-      vi: 'Vui lòng nhập tiêu đề.',
-      en: 'Please enter a subject.',
-    },
-    messageRequired: {
-      vi: 'Vui lòng nhập nội dung tin nhắn.',
-      en: 'Please enter a message.',
-    },
-    messageShort: {
-      vi: 'Nội dung tin nhắn tối thiểu 10 ký tự.',
-      en: 'Message must be at least 10 characters.',
-    },
+  sendEmailButton: {
+    vi: 'Gửi Email trực tiếp',
+    en: 'Send an Email',
   },
 } as const;
