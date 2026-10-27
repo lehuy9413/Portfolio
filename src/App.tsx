@@ -1,14 +1,15 @@
 import React from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { useActiveSection } from '@/hooks/useActiveSection';
+import { useLanguageProvider, LanguageContext } from '@/hooks/useLanguage';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/sections/Hero';
-import { About } from '@/components/sections/About';
 import { Projects } from '@/components/sections/Projects';
 import { Skills } from '@/components/sections/Skills';
 import { Experience } from '@/components/sections/Experience';
 import { Contact } from '@/components/sections/Contact';
 import { Footer } from '@/components/sections/Footer';
+import { FloatingDock } from '@/components/ui/FloatingDock';
 import type { SectionId } from '@/types';
 
 const SECTION_IDS: readonly SectionId[] = [
@@ -22,30 +23,44 @@ const SECTION_IDS: readonly SectionId[] = [
 
 export const App: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const langContext = useLanguageProvider();
   const activeSection = useActiveSection(SECTION_IDS, 'hero');
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
-      {/* Sticky Header with Backdrop Blur and Active Indicator */}
-      <Navbar
-        activeSection={activeSection}
-        theme={theme}
-        onToggleTheme={toggleTheme}
-      />
+    <LanguageContext.Provider value={langContext}>
+      <div className="min-h-screen flex flex-col bg-neutral-50 text-neutral-900 dark:bg-[#0a0a0a] dark:text-neutral-100 transition-colors duration-200 relative selection:bg-neutral-200 dark:selection:bg-neutral-800">
+        {/* Sticky Header with Backdrop Blur and Controls */}
+        <Navbar
+          activeSection={activeSection}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+        />
 
-      {/* Main Single Page Application Sections */}
-      <main id="main-content" className="flex-1">
-        <Hero />
-        <About />
-        <Projects />
-        <Skills />
-        <Experience />
-        <Contact />
-      </main>
+        {/* Floating Right Social Dock matching reference screenshot */}
+        <FloatingDock />
 
-      {/* Production-grade Footer */}
-      <Footer />
-    </div>
+        {/* Main Single Page Application Sections */}
+        <main id="main-content" className="flex-1">
+          {/* Split Statement Hero with About Me Narrative */}
+          <Hero />
+
+          {/* Featured Projects */}
+          <Projects />
+
+          {/* Skills & Technologies */}
+          <Skills />
+
+          {/* Experience & Education */}
+          <Experience />
+
+          {/* Contact Section */}
+          <Contact />
+        </main>
+
+        {/* Minimalist Footer */}
+        <Footer />
+      </div>
+    </LanguageContext.Provider>
   );
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/utils/cn';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'glow';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
@@ -16,21 +16,19 @@ export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'>
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-primary-600 text-white hover:bg-primary-500 shadow-md shadow-primary-500/20 active:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-400',
+    'bg-neutral-900 text-neutral-50 hover:bg-neutral-800 active:bg-neutral-950 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200 dark:active:bg-neutral-300 shadow-sm',
   secondary:
-    'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700/80',
+    'bg-neutral-100 text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 border border-neutral-200/80 dark:border-neutral-700/80',
   outline:
-    'border border-slate-300 bg-transparent text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/80',
+    'border border-neutral-300 dark:border-neutral-700 bg-transparent text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/70',
   ghost:
-    'bg-transparent text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/70',
-  glow:
-    'relative bg-gradient-to-r from-primary-600 via-indigo-600 to-cyan-500 text-white font-semibold shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50 hover:brightness-110 active:brightness-95',
+    'bg-transparent text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-neutral-100 dark:hover:bg-neutral-800/60',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
   sm: 'text-xs px-3 py-1.5 rounded-lg gap-1.5',
-  md: 'text-sm px-4 py-2.5 rounded-xl gap-2',
-  lg: 'text-base px-6 py-3.5 rounded-xl gap-2.5 font-medium',
+  md: 'text-sm px-4 py-2 rounded-lg gap-2',
+  lg: 'text-sm px-5 py-2.5 rounded-xl gap-2 font-medium',
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -46,12 +44,12 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <motion.button
-      whileHover={disabled || isLoading ? undefined : { scale: 1.02 }}
+      whileHover={disabled || isLoading ? undefined : { scale: 1.01 }}
       whileTap={disabled || isLoading ? undefined : { scale: 0.98 }}
-      transition={{ duration: 0.15 }}
+      transition={{ duration: 0.12 }}
       disabled={disabled || isLoading}
       className={cn(
-        'inline-flex items-center justify-center font-medium transition-colors select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 disabled:opacity-50 disabled:pointer-events-none cursor-pointer',
+        'inline-flex items-center justify-center font-medium transition-all select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600 disabled:opacity-50 disabled:pointer-events-none cursor-pointer',
         variantStyles[variant],
         sizeStyles[size],
         className

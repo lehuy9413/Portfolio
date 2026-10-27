@@ -1,245 +1,126 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  ExternalLink,
-  ChevronDown,
-  Layers,
-  Sparkles,
-  CheckCircle2,
-  Cpu,
-  BarChart2,
-  Workflow,
-} from 'lucide-react';
+import React from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { FEATURED_PROJECTS } from '@/data/portfolioData';
-import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GithubIcon } from '@/components/ui/Icons';
-
-const projectIcons: Record<string, React.ReactNode> = {
-  'nexus-design-system': <Layers className="w-5 h-5 text-primary-500" />,
-  'pulse-realtime-analytics': <BarChart2 className="w-5 h-5 text-cyan-400" />,
-  'flowstate-workflow-builder': <Workflow className="w-5 h-5 text-violet-400" />,
-};
+import { useLanguage } from '@/hooks/useLanguage';
 
 export const Projects: React.FC = () => {
-  const [expandedHighlights, setExpandedHighlights] = useState<Record<string, boolean>>({
-    'nexus-design-system': true,
-    'pulse-realtime-analytics': true,
-    'flowstate-workflow-builder': false,
-  });
-
-  const toggleHighlights = (projectId: string) => {
-    setExpandedHighlights((prev) => ({
-      ...prev,
-      [projectId]: !prev[projectId],
-    }));
-  };
+  const { language, isVi } = useLanguage();
 
   return (
-    <section id="projects" className="py-20 md:py-28 relative">
-      {/* Background ambient decorative orb */}
-      <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-primary-500/10 dark:bg-primary-500/5 rounded-full blur-[140px] pointer-events-none -z-10" />
+    <section id="projects" className="py-20 md:py-28 border-t border-neutral-200 dark:border-neutral-800">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="mb-12 md:mb-16">
+          <span className="text-xs font-mono font-medium tracking-widest uppercase text-neutral-400 dark:text-neutral-500 block mb-2">
+            {isVi ? 'DỰ ÁN TIÊU BIỂU' : 'SELECTED WORK'}
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-neutral-900 dark:text-white">
+            {isVi ? 'Các sản phẩm đã thực hiện' : 'Featured Projects'}
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 max-w-2xl">
+            {isVi
+              ? 'Tập trung vào kiến trúc component tái sử dụng, tối ưu render và trải nghiệm người dùng.'
+              : 'A selection of frontend applications focusing on state management, responsive UI architecture, and technical challenges.'}
+          </p>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          badgeText="Dự án tiêu biểu"
-          badgeVariant="primary"
-          title="Sản phẩm & Giải pháp Kỹ thuật Frontend"
-          gradientWord="Giải pháp Kỹ thuật"
-          description="Tập trung vào kiến trúc UI/UX có khả năng mở rộng, tối ưu render 60fps, xử lý state phức tạp và tuân thủ chuẩn Web Accessibility khắt khe."
-        />
-
-        <div className="space-y-12 lg:space-y-16">
+        <div className="space-y-12">
           {FEATURED_PROJECTS.map((project, index) => {
-            const isHighlightsOpen = !!expandedHighlights[project.id];
-            const isEven = index % 2 === 0;
-
             return (
               <Card
                 key={project.id}
-                className="p-6 sm:p-8 lg:p-10 border-slate-200/90 dark:border-slate-800/90 bg-white/70 dark:bg-slate-900/60"
-                gradientBorder
+                className="p-6 sm:p-8 md:p-10 overflow-hidden"
+                hoverEffect
               >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-                  {/* Visual Preview / Mockup Column */}
-                  <div
-                    className={`lg:col-span-5 flex flex-col gap-4 ${
-                      isEven ? 'lg:order-1' : 'lg:order-2'
-                    }`}
-                  >
-                    <div className="group relative rounded-xl overflow-hidden border border-slate-200/80 dark:border-slate-700/80 aspect-video shadow-lg bg-slate-950">
-                      <img
-                        src={project.image}
-                        alt={`Ảnh minh họa giao diện ${project.title}`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-                        loading="lazy"
-                      />
-
-                      {/* Overlay badge with icon */}
-                      <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/60 flex items-center gap-2 text-xs font-mono text-white">
-                        {projectIcons[project.id]}
-                        <span>Dự án #{index + 1}</span>
+                <div className="flex flex-col gap-6">
+                  {/* Top: Index, Subtitle, Title, Links */}
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1.5 font-mono text-xs">
+                        <span className="text-neutral-400">0{index + 1}</span>
+                        <span className="text-neutral-300 dark:text-neutral-700">/</span>
+                        <span className="text-neutral-500 dark:text-neutral-400">
+                          {project.subtitle[language]}
+                        </span>
                       </div>
-
-                      {/* Hover action overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
-                        <span className="text-xs text-white font-mono">React 18 &amp; Strict TS</span>
-                        <div className="flex gap-2">
-                          <a
-                            href={project.demoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`Trải nghiệm bản live của ${project.title}`}
-                            className="p-2 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-md text-white transition-colors"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`Xem mã nguồn ${project.title} trên GitHub`}
-                            className="p-2 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-md text-white transition-colors"
-                          >
-                            <GithubIcon className="w-4 h-4" />
-                          </a>
-                        </div>
-                      </div>
+                      <h3 className="text-2xl sm:text-3xl font-normal tracking-tight text-neutral-900 dark:text-white">
+                        {project.title}
+                      </h3>
                     </div>
 
-                    {/* Key Architecture Bullets */}
-                    <div className="bg-slate-50 dark:bg-slate-950/50 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800/80">
-                      <div className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-2.5">
-                        <Cpu className="w-4 h-4 text-primary-500" />
-                        <span>Điểm nhấn kiến trúc:</span>
-                      </div>
-                      <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
-                        {project.architecturePoints.map((point, pIdx) => (
-                          <li key={pIdx} className="flex items-start gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-1.5 shrink-0" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
+                    <div className="flex items-center gap-4 shrink-0 pt-1">
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors"
+                        aria-label={`View live demo of ${project.title}`}
+                      >
+                        <span>Demo</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </a>
+
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors"
+                        aria-label={`View source code of ${project.title} on GitHub`}
+                      >
+                        <GithubIcon size={14} />
+                        <span>Code</span>
+                      </a>
                     </div>
                   </div>
 
-                  {/* Project Details & Technical Highlights Column */}
-                  <div
-                    className={`lg:col-span-7 flex flex-col justify-between ${
-                      isEven ? 'lg:order-2' : 'lg:order-1'
-                    }`}
-                  >
-                    <div>
-                      {/* Header Title & Subtitle */}
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-primary-600 dark:text-cyan-400">
-                            {project.subtitle}
-                          </span>
-                          <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
-                            {project.title}
-                          </h3>
-                        </div>
-                      </div>
+                  {/* Description */}
+                  <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-3xl">
+                    {project.description[language]}
+                  </p>
 
-                      {/* Descriptions */}
-                      <p className="mt-3 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
-                        {project.description}
-                      </p>
+                  {/* Image Preview */}
+                  <div className="relative rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 aspect-[16/9] bg-neutral-100 dark:bg-neutral-900 max-h-[460px]">
+                    <img
+                      src={project.image}
+                      alt={`Mockup for ${project.title}`}
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+                      loading="lazy"
+                    />
+                  </div>
 
-                      {/* Tech stack badges */}
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {project.tags.map((tag) => (
-                          <Badge key={tag} variant="default" size="sm">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
+                  {/* Technical Highlights */}
+                  <div className="pt-2 border-t border-neutral-100 dark:border-neutral-800/80">
+                    <div className="text-xs font-mono font-medium text-neutral-400 uppercase tracking-wider mb-3">
+                      {isVi ? 'Giải pháp kỹ thuật Frontend' : 'Frontend Solutions & Architecture'}
+                    </div>
 
-                      {/* Frontend Highlights Section */}
-                      <div className="mt-6 border-t border-slate-200/80 dark:border-slate-800/80 pt-5">
-                        <button
-                          type="button"
-                          onClick={() => toggleHighlights(project.id)}
-                          className="w-full flex items-center justify-between text-left text-sm font-semibold text-slate-900 dark:text-white py-1 focus:outline-none group cursor-pointer"
-                          aria-expanded={isHighlightsOpen}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {project.highlights.map((highlight, hIdx) => (
+                        <div
+                          key={hIdx}
+                          className="p-3.5 rounded-lg bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200/60 dark:border-neutral-800/60"
                         >
-                          <span className="flex items-center gap-2 text-primary-600 dark:text-primary-400">
-                            <Sparkles className="w-4 h-4" />
-                            Frontend Highlights &amp; Giải pháp Kỹ thuật UI
-                          </span>
-                          <ChevronDown
-                            className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                              isHighlightsOpen ? 'rotate-180 text-primary-500' : ''
-                            }`}
-                          />
-                        </button>
-
-                        <AnimatePresence initial={false}>
-                          {isHighlightsOpen && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="overflow-hidden mt-3"
-                            >
-                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                {project.highlights.map((highlight, hIdx) => (
-                                  <div
-                                    key={hIdx}
-                                    className="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/70 border border-slate-200/60 dark:border-slate-800/80 flex flex-col justify-between"
-                                  >
-                                    <div>
-                                      <div className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                                        <span>{highlight.title}</span>
-                                      </div>
-                                      <p className="mt-1.5 text-[11px] text-slate-500 dark:text-slate-400 leading-normal">
-                                        {highlight.description}
-                                      </p>
-                                    </div>
-                                    {highlight.metric && (
-                                      <div className="mt-3 pt-2 border-t border-slate-200/50 dark:border-slate-800/50">
-                                        <span className="text-[10px] font-mono font-semibold text-primary-600 dark:text-cyan-400 bg-primary-50 dark:bg-cyan-950/50 px-2 py-0.5 rounded-md">
-                                          {highlight.metric}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
+                          <div className="text-xs font-medium text-neutral-900 dark:text-neutral-100">
+                            {highlight.title[language]}
+                          </div>
+                          <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-400 leading-normal">
+                            {highlight.description[language]}
+                          </div>
+                        </div>
+                      ))}
                     </div>
+                  </div>
 
-                    {/* Footer Actions */}
-                    <div className="mt-8 pt-4 flex flex-wrap items-center gap-3">
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        onClick={() => window.open(project.demoUrl, '_blank', 'noopener,noreferrer')}
-                        leftIcon={<ExternalLink className="w-4 h-4" />}
-                        aria-label={`Mở Live Demo của ${project.title}`}
-                      >
-                        Live Demo
-                      </Button>
-
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => window.open(project.githubUrl, '_blank', 'noopener,noreferrer')}
-                        leftIcon={<GithubIcon className="w-4 h-4" />}
-                        aria-label={`Mở kho mã nguồn ${project.title} trên GitHub`}
-                      >
-                        Mã nguồn (GitHub)
-                      </Button>
-                    </div>
+                  {/* Tech stack badges */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {project.tags.map((tag) => (
+                      <Badge key={tag} variant="subtle" size="sm">
+                        {tag}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
               </Card>

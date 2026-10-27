@@ -1,43 +1,45 @@
 /**
- * Strict TypeScript Definitions for Portfolio
+ * Strict TypeScript Definitions for Portfolio with Bilingual Support
  */
 
 export type ThemeMode = 'light' | 'dark';
+export type Language = 'vi' | 'en';
 
 export type SectionId = 'hero' | 'about' | 'projects' | 'skills' | 'experience' | 'contact';
 
+export interface LocalizedString {
+  readonly vi: string;
+  readonly en: string;
+}
+
 export interface NavRoute {
   readonly id: SectionId;
-  readonly label: string;
+  readonly label: LocalizedString;
   readonly href: string;
 }
 
 export interface SocialLink {
-  readonly platform: 'github' | 'linkedin' | 'email' | 'twitter';
+  readonly platform: 'github' | 'linkedin' | 'email' | 'phone';
   readonly label: string;
   readonly url: string;
   readonly iconName: string;
 }
 
 export interface TechnicalHighlight {
-  readonly title: string;
-  readonly description: string;
-  readonly metric?: string;
+  readonly title: LocalizedString;
+  readonly description: LocalizedString;
 }
 
 export interface Project {
   readonly id: string;
   readonly title: string;
-  readonly subtitle: string;
-  readonly description: string;
-  readonly longDescription: string;
+  readonly subtitle: LocalizedString;
+  readonly description: LocalizedString;
   readonly image: string;
   readonly demoUrl: string;
   readonly githubUrl: string;
   readonly tags: readonly string[];
   readonly highlights: readonly TechnicalHighlight[];
-  readonly featured: boolean;
-  readonly architecturePoints: readonly string[];
 }
 
 export type SkillCategory = 'core' | 'ui' | 'state' | 'tools';
@@ -45,29 +47,19 @@ export type SkillCategory = 'core' | 'ui' | 'state' | 'tools';
 export interface Skill {
   readonly name: string;
   readonly category: SkillCategory;
-  readonly level: 'Advanced' | 'Expert' | 'Proficient';
-  readonly iconName: string;
-  readonly description: string;
-  readonly isPrimary?: boolean;
+  readonly description: LocalizedString;
 }
 
 export interface Experience {
   readonly id: string;
-  readonly role: string;
+  readonly role: LocalizedString;
   readonly company: string;
-  readonly location: string;
-  readonly period: string;
+  readonly location: LocalizedString;
+  readonly period: LocalizedString;
   readonly current: boolean;
-  readonly type: 'work' | 'education' | 'freelance';
-  readonly summary: string;
-  readonly achievements: readonly string[];
+  readonly summary: LocalizedString;
+  readonly achievements: readonly LocalizedString[];
   readonly techStack: readonly string[];
-}
-
-export interface MetricStat {
-  readonly label: string;
-  readonly value: string;
-  readonly description: string;
 }
 
 export interface ContactFormData {

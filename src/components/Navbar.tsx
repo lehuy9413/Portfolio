@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download, Code2, ArrowUpRight } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
 import { NAV_ROUTES, PERSONAL_INFO } from '@/data/portfolioData';
 import { useScrollTo } from '@/hooks/useScrollTo';
+import { useLanguage } from '@/hooks/useLanguage';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
-import { Button } from '@/components/ui/Button';
+import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import type { SectionId, ThemeMode } from '@/types';
 import { cn } from '@/utils/cn';
 
@@ -22,6 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollTo } = useScrollTo();
+  const { language, isVi } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,18 +34,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [mobileMenuOpen]);
-
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     scrollTo(href);
@@ -51,48 +41,36 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleDownloadCV = () => {
-    // Generate an accessible print/download CV action or smooth scroll to contact
-    scrollTo('#contact');
-    window.open('https://github.com/lehuy9413', '_blank', 'noopener,noreferrer');
+    window.open(PERSONAL_INFO.cvUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-200',
         isScrolled
-          ? 'py-3.5 bg-white/80 dark:bg-slate-950/80 backdrop-blur-lg border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm'
+          ? 'py-3 bg-neutral-900/90 dark:bg-black/90 text-white backdrop-blur-md border-b border-neutral-800 shadow-sm'
           : 'py-5 bg-transparent'
       )}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Subtle Logo / Title */}
           <a
             href="#hero"
             onClick={(e) => handleNavClick(e, '#hero')}
-            className="group flex items-center gap-2.5 focus:outline-none"
-            aria-label="Về đầu trang"
+            className="flex items-center gap-2 group text-neutral-900 dark:text-neutral-100 focus:outline-none"
+            aria-label="Back to top"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 via-indigo-600 to-cyan-400 p-[1.5px] shadow-md shadow-primary-500/20 group-hover:shadow-primary-500/40 transition-shadow">
-              <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center text-primary-600 dark:text-cyan-400 font-mono font-bold text-sm">
-                <Code2 className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-slate-900 dark:text-white text-base tracking-tight leading-none group-hover:text-primary-600 dark:group-hover:text-cyan-400 transition-colors">
-                {PERSONAL_INFO.name}
-              </span>
-              <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 leading-none mt-1">
-                Senior Frontend
-              </span>
-            </div>
+            <span className="font-bold text-sm tracking-widest uppercase font-mono">
+              {PERSONAL_INFO.fullName}
+            </span>
           </a>
 
-          {/* Desktop Nav Items */}
+          {/* Desktop Navigation Links */}
           <nav
-            className="hidden md:flex items-center gap-1 bg-slate-100/80 dark:bg-slate-900/80 p-1.5 rounded-full border border-slate-200/80 dark:border-slate-800 backdrop-blur-md"
-            aria-label="Menu điều hướng chính"
+            className="hidden lg:flex items-center gap-7 text-xs font-mono uppercase tracking-wider"
+            aria-label="Main Navigation"
           >
             {NAV_ROUTES.map((route) => {
               const isActive = activeSection === route.id;
@@ -102,69 +80,69 @@ export const Navbar: React.FC<NavbarProps> = ({
                   href={route.href}
                   onClick={(e) => handleNavClick(e, route.href)}
                   className={cn(
-                    'relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
+                    'transition-colors py-1 relative',
                     isActive
-                      ? 'text-slate-900 dark:text-white'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      ? 'text-neutral-900 dark:text-white font-semibold'
+                      : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white'
                   )}
                 >
+                  {route.label[language]}
                   {isActive && (
                     <motion.div
-                      layoutId="activeNavPill"
-                      className="absolute inset-0 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-200/60 dark:border-slate-700/60"
+                      layoutId="navUnderline"
+                      className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-neutral-900 dark:bg-white"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                  <span className="relative z-10">{route.label}</span>
                 </a>
               );
             })}
           </nav>
 
-          {/* Actions: Theme Toggle & CV Button */}
-          <div className="hidden md:flex items-center gap-3">
-            <ThemeToggle theme={theme} onToggle={onToggleTheme} />
-
-            <Button
-              variant="glow"
-              size="sm"
+          {/* Top Right Controls Matching User Screenshot */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* CV Download Button */}
+            <button
+              type="button"
               onClick={handleDownloadCV}
-              leftIcon={<Download className="w-4 h-4" />}
-              rightIcon={<ArrowUpRight className="w-3.5 h-3.5 opacity-70" />}
-              aria-label="Tải CV cá nhân"
+              aria-label={isVi ? 'Tải CV cá nhân' : 'Download CV'}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 text-xs font-mono font-medium text-neutral-800 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-neutral-700 transition-colors shadow-sm cursor-pointer"
             >
-              Tải CV
-            </Button>
-          </div>
+              <Download className="w-3.5 h-3.5 stroke-[2]" />
+              <span>{isVi ? 'Tải CV' : 'CV'}</span>
+            </button>
 
-          {/* Mobile Menu & Theme Toggle */}
-          <div className="flex md:hidden items-center gap-2">
+            {/* Language Switcher Pill */}
+            <LanguageToggle />
+
+            {/* Theme Toggle Button */}
             <ThemeToggle theme={theme} onToggle={onToggleTheme} />
 
+            {/* Mobile Hamburger Menu Toggle */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-expanded={mobileMenuOpen}
-              aria-label="Mở menu di động"
-              className="p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 text-slate-700 dark:text-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+              aria-label="Toggle navigation menu"
+              className="lg:hidden p-2 rounded-lg border border-neutral-300 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 focus:outline-none"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 px-6 py-6"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.15 }}
+            className="lg:hidden bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-neutral-200 dark:border-neutral-800 px-6 py-5"
           >
-            <nav className="flex flex-col gap-2" aria-label="Menu di động">
+            <nav className="flex flex-col gap-3 font-mono text-xs uppercase tracking-wider">
               {NAV_ROUTES.map((route) => {
                 const isActive = activeSection === route.id;
                 return (
@@ -173,29 +151,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                     href={route.href}
                     onClick={(e) => handleNavClick(e, route.href)}
                     className={cn(
-                      'px-4 py-3 rounded-xl text-base font-medium transition-all flex items-center justify-between',
+                      'py-2 transition-colors flex items-center justify-between',
                       isActive
-                        ? 'bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-300 font-semibold'
-                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900'
+                        ? 'text-neutral-900 dark:text-white font-bold'
+                        : 'text-neutral-600 dark:text-neutral-400'
                     )}
                   >
-                    <span>{route.label}</span>
-                    {isActive && <div className="w-2 h-2 rounded-full bg-primary-500" />}
+                    <span>{route.label[language]}</span>
+                    {isActive && <div className="w-1.5 h-1.5 rounded-full bg-neutral-900 dark:bg-white" />}
                   </a>
                 );
               })}
-
-              <div className="pt-4 mt-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
-                <Button
-                  variant="glow"
-                  size="md"
-                  onClick={handleDownloadCV}
-                  leftIcon={<Download className="w-4 h-4" />}
-                  className="w-full justify-center"
-                >
-                  Tải CV (Bản PDF)
-                </Button>
-              </div>
             </nav>
           </motion.div>
         )}
