@@ -67,12 +67,12 @@ const ProjectBookPage: React.FC<ProjectBookPageProps> = ({
   // Extract hostname for browser mockup bar
   const demoHost = project.demoUrl
     ? (() => {
-        try {
-          return new URL(project.demoUrl).hostname;
-        } catch {
-          return 'live-demo.app';
-        }
-      })()
+      try {
+        return new URL(project.demoUrl).hostname;
+      } catch {
+        return 'live-demo.app';
+      }
+    })()
     : 'localhost:3000';
 
   return (
@@ -440,11 +440,6 @@ export const Projects: React.FC = () => {
         <div className="flex items-center justify-between text-xs font-mono text-neutral-400 dark:text-neutral-500 pt-1">
           <div className="flex items-center gap-2">
             <Layers className="w-3.5 h-3.5 text-cyan-400" />
-            <span>
-              {isVi
-                ? `Lăn chuột lên/xuống tại khung để lật trang • Trang 0${activePageIndex + 1} / 0${totalPages}`
-                : `Scroll mouse wheel over book to flip pages • Page 0${activePageIndex + 1} of 0${totalPages}`}
-            </span>
           </div>
 
           <div className="flex items-center gap-1.5">
