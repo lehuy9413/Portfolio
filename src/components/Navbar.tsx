@@ -40,10 +40,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     setMobileMenuOpen(false);
   };
 
-  const handleDownloadCV = () => {
-    window.open(PERSONAL_INFO.cvUrl, '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <header
       className={cn(
@@ -102,15 +98,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Top Right Controls Matching User Screenshot */}
           <div className="flex items-center gap-2.5 sm:gap-3">
             {/* CV Download Button */}
-            <button
-              type="button"
-              onClick={handleDownloadCV}
+            <a
+              href={PERSONAL_INFO.cvUrl}
+              download="CV_LE_QUOC_HUY.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={isVi ? 'Tải CV cá nhân' : 'Download CV'}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 text-xs font-mono font-medium text-neutral-800 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-neutral-700 transition-colors shadow-sm cursor-pointer"
             >
               <Download className="w-3.5 h-3.5 stroke-[2]" />
               <span>{isVi ? 'Tải CV' : 'CV'}</span>
-            </button>
+            </a>
 
             {/* Language Switcher Pill */}
             <LanguageToggle />
@@ -163,6 +161,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                 );
               })}
             </nav>
+
+            {/* Mobile CV Download Button */}
+            <div className="pt-4 mt-2 border-t border-neutral-200 dark:border-neutral-800">
+              <a
+                href={PERSONAL_INFO.cvUrl}
+                download="CV_LE_QUOC_HUY.pdf"
+                className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 font-medium text-xs tracking-wider uppercase shadow-sm"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>{isVi ? 'TẢI CV' : 'DOWNLOAD CV'}</span>
+              </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

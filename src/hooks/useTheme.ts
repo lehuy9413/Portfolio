@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { ThemeMode } from '@/types';
 
-const THEME_STORAGE_KEY = 'portfolio_theme';
+const THEME_STORAGE_KEY = 'portfolio_theme_mode';
 
 export interface UseThemeReturn {
   readonly theme: ThemeMode;
@@ -18,7 +18,7 @@ export function useTheme(): UseThemeReturn {
       if (stored === 'dark' || stored === 'light') {
         return stored;
       }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      return 'dark'; // Default is strictly dark/black
     } catch {
       return 'dark';
     }

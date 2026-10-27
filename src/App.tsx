@@ -10,6 +10,7 @@ import { Experience } from '@/components/sections/Experience';
 import { Contact } from '@/components/sections/Contact';
 import { Footer } from '@/components/sections/Footer';
 import { FloatingDock } from '@/components/ui/FloatingDock';
+import { OceanWaveCursor } from '@/components/ui/OceanWaveCursor';
 import type { SectionId } from '@/types';
 
 const SECTION_IDS: readonly SectionId[] = [
@@ -29,6 +30,9 @@ export const App: React.FC = () => {
   return (
     <LanguageContext.Provider value={langContext}>
       <div className="min-h-screen flex flex-col bg-neutral-50 text-neutral-900 dark:bg-[#0a0a0a] dark:text-neutral-100 transition-colors duration-200 relative selection:bg-neutral-200 dark:selection:bg-neutral-800">
+        {/* Dynamic Ocean Wave effect following cursor */}
+        <OceanWaveCursor />
+
         {/* Sticky Header with Backdrop Blur and Controls */}
         <Navbar
           activeSection={activeSection}
